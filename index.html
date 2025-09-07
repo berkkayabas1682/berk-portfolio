@@ -6,78 +6,67 @@
   <title>Berk Kayabaş • Portfolio</title>
   <meta name="description" content="Portfolio of Berk Kayabaş — Computer Scientist & Engineer (CS, Cybersecurity, Python, C++)." />
   <style>
-    /* =====================
-       THEME & TOKENS
-    ====================== */
     :root{
-      --bg:#0b1220;             /* base background */
-      --bg-soft:#0f172a;         /* cards */
-      --text:#e6edf3;            /* primary text */
-      --muted:#93a4b8;           /* secondary text */
-      --accent: #22d3ee;         /* neon cyan */
-      --accent-2:#7c3aed;        /* electric purple */
-      --card: rgba(15, 23, 42, 0.75);
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:16px;
-      --maxw:1080px;
+      --bg:#0b1220; --bg-soft:#0f172a; --text:#e6edf3; --muted:#93a4b8;
+      --accent:#22d3ee; --accent-2:#7c3aed; --card:rgba(15,23,42,.75);
+      --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px; --maxw:1080px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
+    *{box-sizing:border-box} html,body{height:100%}
     body{
       margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text); background: radial-gradient(1200px 800px at 80% -10%, rgba(34,211,238,.15), transparent 60%),
-                            radial-gradient(1200px 800px at -20% 10%, rgba(124,58,237,.12), transparent 50%),
-                            var(--bg);
+      color:var(--text);
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(34,211,238,.15), transparent 60%),
+                  radial-gradient(1200px 800px at -20% 10%, rgba(124,58,237,.12), transparent 50%),
+                  var(--bg);
       line-height:1.6;
     }
     a{color:var(--text); text-decoration:none}
     .wrap{max-width:var(--maxw); margin:0 auto; padding:24px}
 
-    /* =====================
-       NAVBAR
-    ====================== */
-    header{position:sticky; top:0; z-index:50; backdrop-filter: blur(10px); background: linear-gradient(180deg, rgba(11,18,32,.85), rgba(11,18,32,.55) 60%, transparent); border-bottom:1px solid rgba(255,255,255,.05)}
+    header{position:sticky; top:0; z-index:50; backdrop-filter: blur(10px);
+      background:linear-gradient(180deg, rgba(11,18,32,.85), rgba(11,18,32,.55) 60%, transparent);
+      border-bottom:1px solid rgba(255,255,255,.05)}
     nav{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 24px}
     .brand{display:flex; align-items:center; gap:12px}
-    .logo{width:36px; height:36px; border-radius:10px; position:relative; overflow:hidden; box-shadow:0 0 0 1px rgba(255,255,255,.06), var(--shadow)}
-    .logo::before{content:""; position:absolute; inset:-60%; background: conic-gradient(from 180deg, var(--accent), var(--accent-2), var(--accent)); filter: blur(12px); animation: spin 10s linear infinite}
+    .logo{width:36px; height:36px; border-radius:10px; position:relative; overflow:hidden;
+      box-shadow:0 0 0 1px rgba(255,255,255,.06), var(--shadow)}
+    .logo::before{content:""; position:absolute; inset:-60%;
+      background: conic-gradient(from 180deg, var(--accent), var(--accent-2), var(--accent));
+      filter: blur(12px); animation: spin 10s linear infinite}
     @keyframes spin{to{transform: rotate(360deg)}}
     .brand h1{font-size:16px; margin:0; letter-spacing:.3px; font-weight:700}
     .links{display:flex; gap:18px; align-items:center}
-    .links a{opacity:.9}
-    .links a:hover{opacity:1}
+    .links a{opacity:.9} .links a:hover{opacity:1}
     .link-btn{background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;opacity:.9;cursor:pointer}
     .link-btn:hover{opacity:1}
     .link-btn:focus{outline:2px solid rgba(34,211,238,.6); outline-offset:2px}
     .btn{padding:10px 14px; border-radius:12px; background:linear-gradient(90deg, rgba(34,211,238,.15), rgba(124,58,237,.15)); border:1px solid rgba(255,255,255,.08)}
 
-    /* =====================
-       HERO
-    ====================== */
     .hero{display:grid; grid-template-columns:1.2fr .8fr; gap:28px; align-items:center; padding:48px 24px 16px}
     @media (max-width:900px){ .hero{grid-template-columns:1fr} }
     .badge{display:inline-flex; align-items:center; gap:10px; padding:6px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.08); background:rgba(34,211,238,.08)}
     .headline{font-size:40px; line-height:1.1; margin:16px 0 12px; font-weight:800}
     .lead{color:var(--muted); max-width:60ch}
     .hero-cta{display:flex; gap:12px; margin-top:18px; flex-wrap:wrap}
-    .cta{padding:12px 16px; border-radius:14px; border:1px solid rgba(255,255,255,.08); background:linear-gradient(90deg, rgba(34,211,238,.15), rgba(124,58,237,.15)); font-weight:600}
+    .cta{padding:12px 16px; border-radius:14px; border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(90deg, rgba(34,211,238,.15), rgba(124,58,237,.15)); font-weight:600}
     .cta.ghost{background:transparent}
 
-    .hero-card{position:relative; padding:22px; border-radius:var(--radius); background:var(--card); box-shadow: var(--shadow); border:1px solid rgba(255,255,255,.08)}
-    .hero-card::after{content:""; position:absolute; inset:-1px; border-radius:calc(var(--radius) + 1px); padding:1px; background: linear-gradient(135deg, rgba(34,211,238,.35), rgba(124,58,237,.35)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;}
+    .hero-card{position:relative; padding:22px; border-radius:var(--radius); background:var(--card);
+      box-shadow: var(--shadow); border:1px solid rgba(255,255,255,.08)}
+    .hero-card::after{content:""; position:absolute; inset:-1px; border-radius:calc(var(--radius) + 1px); padding:1px;
+      background: linear-gradient(135deg, rgba(34,211,238,.35), rgba(124,58,237,.35));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;}
 
-    /* =====================
-       SECTION
-    ====================== */
     section{padding:28px 24px}
     .section-title{font-size:20px; letter-spacing:.4px; margin:0 0 12px; opacity:.9}
     .section-sub{color:var(--muted); margin:0 0 20px}
 
-    /* =====================
-       CARDS (Projects / Experience)
-    ====================== */
     .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap:18px}
-    .card{grid-column: span 6; background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:18px; box-shadow: var(--shadow); position:relative; transition: transform .2s ease, border-color .2s ease}
+    .card{grid-column: span 6; background:var(--card); border:1px solid rgba(255,255,255,.08);
+      border-radius:16px; padding:18px; box-shadow: var(--shadow); position:relative;
+      transition: transform .2s ease, border-color .2s ease}
     .card:hover{transform: translateY(-4px); border-color: rgba(34,211,238,.45)}
     @media (max-width:900px){ .card{grid-column: span 12} }
     .card h3{margin:0 0 6px; font-size:18px}
@@ -85,24 +74,14 @@
     .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
     .tag{font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.08); background:rgba(124,58,237,.12)}
 
-    /* =====================
-       SKILLS CHIPS
-    ====================== */
     .chips{display:flex; gap:10px; flex-wrap:wrap}
     .chip{padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.08); background:rgba(34,211,238,.10); font-size:14px}
 
-    /* =====================
-       FOOTER
-    ====================== */
     footer{padding:36px 24px; color:var(--muted); border-top:1px solid rgba(255,255,255,.06)}
     .foot-grid{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
 
-    /* =====================
-       UTILITIES
-    ====================== */
     .sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
-    .muted{color:var(--muted)}
-    .spacer{height:8px}
+    .muted{color:var(--muted)} .spacer{height:8px}
   </style>
 </head>
 <body>
@@ -127,81 +106,73 @@
   <main class="wrap">
     <section class="hero" id="about">
       <div>
-        <span class="badge">CS • Cybersecurity • Python • C++</span>
-        <h2 class="headline">Secure, reliable software—<br/>built with a CS & cybersecurity mindset.</h2>
-        <p class="lead">Computer Scientist & Engineer with hands‑on cybersecurity experience—from MFA deployments to defense simulations. I focus on performance, clean APIs, and practical, real‑world security.</p>
+        <span class="badge">Computer Science • Cybersecurity • Python • C++</span>
+        <h2 class="headline">Security-minded software engineering</h2>
+        <p class="lead">Computer Scientist & Engineer with hands-on cybersecurity experience—from MFA deployments to defense simulations. I focus on performance, clean APIs, and practical, real-world security.</p>
         <div class="hero-cta">
-          <a class="cta" href="#projects">View Projects</a>
-          <a class="cta ghost" href="#contact">Get in touch</a>
+          <a class="cta" href="#experience">See Experience</a>
+          <a class="cta ghost" href="#contact">Email Me</a>
         </div>
       </div>
       <aside class="hero-card" aria-label="quick facts">
         <h3 style="margin:0 0 8px">Quick facts</h3>
         <ul style="margin:0; padding-left:18px">
-          <li>BS in Computer Science & Engineering, Sabancı University • Minor in Mathematics</li>
-          <li>Cybersecurity: SecurEnvoy MFA deployment; THY Tech Cyber Take‑Off (GRC) training</li>
-          <li>Tech: Python (ML/Data/Web), C++ (systems), Java; Git/GitHub; SQL/NoSQL; Linux</li>
-          <li>Languages: English (C1 • 183), French (B2), Turkish (Native)</li>
+          <li>CS Engineer with hands-on cybersecurity (MFA, defense labs)</li>
+          <li>SecurEnvoy MFA production rollout documentation</li>
+          <li>Python, C++, Java • SQL/NoSQL • Linux • Git/GitHub</li>
+          <li>English (C1-183), French (B2), Turkish (Native)</li>
         </ul>
         <div class="spacer"></div>
         <div class="chips">
-            <a class="chip" href="https://github.com/berkkayabas" target="_blank" rel="noopener noreferrer" title="GitHub — opens in new tab">GitHub</a>
-            <a class="chip" href="https://www.linkedin.com/in/berkkayabas" target="_blank" rel="noopener noreferrer" title="LinkedIn — opens in new tab">LinkedIn</a>
-            <a class="chip" href="resume.pdf" target="_blank" rel="noopener noreferrer" title="Resume (PDF)">Resume</a>
-          </div>
+          <a class="chip" href="https://github.com/berkkayabas" target="_blank" rel="noopener noreferrer" title="GitHub — opens in new tab">GitHub</a>
+          <a class="chip" href="https://www.linkedin.com/in/berkkayabas" target="_blank" rel="noopener noreferrer" title="LinkedIn — opens in new tab">LinkedIn</a>
+          <a class="chip" href="/resume.pdf" target="_blank" rel="noopener noreferrer" title="Resume (PDF)">Resume</a>
+        </div>
       </aside>
     </section>
 
     <!-- ===================== PROJECTS ===================== -->
-<section id="projects">
-  <h2 class="section-title">Projects</h2>
-  <p class="section-sub">Selected work. More projects coming soon.</p>
-  <div class="grid">
-    <article class="card" id="proj-mfa">
-      <h3>MFA Solutions Comparative Analysis</h3>
-      <div class="meta">LSG Teknoloji • 2023</div>
-      <p>Compared 5+ MFA providers and authored a rollout plan. Deployed SecurEnvoy to production and improved account‑takeover resilience.</p>
-      <div class="tags">
-        <span class="tag">Security</span>
-        <span class="tag">MFA</span>
-        <span class="tag">Docs</span>
+    <section id="projects">
+      <h2 class="section-title">Projects</h2>
+      <p class="section-sub">Selected work. More projects coming soon.</p>
+      <div class="grid">
+        <article class="card" id="proj-mfa">
+          <h3>MFA Solutions Comparative Analysis</h3>
+          <div class="meta">LSG Teknoloji • 2023</div>
+          <p>Compared 5+ MFA providers and authored a rollout plan. Deployed SecurEnvoy to production and improved account-takeover resilience.</p>
+          <div class="tags">
+            <span class="tag">Security</span><span class="tag">MFA</span><span class="tag">Docs</span>
+          </div>
+        </article>
+        <article class="card" id="proj-sys">
+          <h3>System Utilities (C++)</h3>
+          <div class="meta">Personal • C++</div>
+          <p>Cross-platform CLI tools for profiling, batch file ops, and small algorithms—focused on performance and portability.</p>
+          <div class="tags">
+            <span class="tag">C++</span><span class="tag">CLI</span><span class="tag">Performance</span>
+          </div>
+        </article>
       </div>
-    </article>
-    <article class="card" id="proj-sys">
-      <h3>System Utilities (C++)</h3>
-      <div class="meta">Personal • C++</div>
-      <p>Cross‑platform CLI tools for profiling, batch file ops, and small algorithms—focused on performance and portability.</p>
-      <div class="tags">
-        <span class="tag">C++</span>
-        <span class="tag">CLI</span>
-        <span class="tag">Performance</span>
-      </div>
-    </article>
-  </div>
-</section>
+    </section>
 
-<!-- ===================== EXPERIENCE ===================== -->
+    <!-- ===================== EXPERIENCE ===================== -->
     <section id="experience">
       <h2 class="section-title">Experience</h2>
       <div class="grid">
         <article class="card">
           <h3>Software Development Intern — LSG Teknoloji Ltd. Şti.</h3>
           <div class="meta">Jul–Aug 2023 • Istanbul</div>
-          <p>Deployed SecurEnvoy MFA in production, prepared documentation, and delivered trainings to 20+ employees. Boosted security posture with additional auth layers.</p>
+          <p>Deployed SecurEnvoy MFA in production and prepared documentation. Boosted security posture with additional auth layers.</p>
           <div class="tags">
-            <span class="tag">MFA</span>
-            <span class="tag">Security</span>
-            <span class="tag">Docs & Training</span>
+            <span class="tag">MFA</span><span class="tag">Security</span><span class="tag">Docs &amp; Training</span>
           </div>
         </article>
         <article class="card">
-          <h3>Cybersecurity Trainee — THY Technology (Cyber Take‑Off GRC)</h3>
+          <h3>Cybersecurity Trainee — THY Technology (Cyber Take-Off GRC)</h3>
           <div class="meta">Mar–Apr 2023 • Istanbul</div>
-          <p>Hands‑on cyber defense simulations; exposure to pentesting, threat detection, and incident response. Practiced risk assessment and mitigation.</p>
+          <p>Hands-on cyber defense simulations; exposure to pentesting, threat detection, and incident response. Practiced risk assessment and mitigation.</p>
           <div class="tags">
-            <span class="tag">GRC</span>
-            <span class="tag">Defense</span>
-            <span class="tag">IR</span>
+            <span class="tag">GRC</span><span class="tag">Defense</span><span class="tag">IR</span>
           </div>
         </article>
       </div>
@@ -212,11 +183,15 @@
       <h2 class="section-title">Contact</h2>
       <p class="section-sub">Open to software and security roles, internships, and collaborations.</p>
       <div class="grid">
-        
-            <a class="chip" href="https://github.com/berkkayabas" target="_blank" rel="noopener noreferrer" title="GitHub — opens in new tab">GitHub</a>
+        <article class="card" style="grid-column: span 12">
+          <p><strong>Email:</strong> <a href="mailto:berk.kayabas1682@gmail.com">berk.kayabas1682@gmail.com</a></p>
+          <p><strong>Phone:</strong> +90 532 545 2001 • <strong>Location:</strong> Istanbul, Turkey</p>
+          <div class="chips">
+            <a class="chip" href="https://github.com/berkkayabas1682" target="_blank" rel="noopener noreferrer" title="GitHub — opens in new tab">GitHub</a>
             <a class="chip" href="https://www.linkedin.com/in/berkkayabas" target="_blank" rel="noopener noreferrer" title="LinkedIn — opens in new tab">LinkedIn</a>
             <a class="chip" href="/resume.pdf" target="_blank" rel="noopener noreferrer" title="Resume (PDF)">Resume</a>
-        
+          </div>
+        </article>
       </div>
     </section>
   </main>
@@ -224,88 +199,75 @@
   <footer>
     <div class="wrap foot-grid">
       <span>© 2025 Berk Kayabaş</span>
-      <span class="muted">Built with a lightweight, neon‑on‑dark theme.</span>
+      <span class="muted">Built with a lightweight, neon-on-dark theme.</span>
     </div>
   </footer>
+
+  <!-- ===================== i18n (EN/TR) ===================== -->
   <script>
-    // =====================
-    // Simple i18n (EN/TR)
-    // =====================
     (function(){
       const dict = {
         en:{
           nav_about:"About", nav_projects:"Projects", nav_experience:"Experience", nav_contact:"Contact",
-          hero_badge:"CS • Cybersecurity • Python • C++",
-          hero_headline:"Secure, reliable software—<br/>built with a CS & cybersecurity mindset.",
-          hero_lead:"Computer Scientist & Engineer with hands‑on cybersecurity experience—from MFA deployments to defense simulations. I focus on performance, clean APIs, and practical, real‑world security.",
-          cta_projects:"View Projects", cta_contact:"Get in touch",
+          hero_badge:"Computer Science • Cybersecurity • Python • C++",
+          hero_headline:"Security-minded software engineering",
+          hero_lead:"Computer Scientist & Engineer with hands-on cybersecurity experience—from MFA deployments to defense simulations. I focus on performance, clean APIs, and practical, real-world security.",
+          cta_projects:"See Experience", cta_contact:"Email Me",
           quick_title:"Quick facts",
-          quick_1:"BS in Computer Science & Engineering, Sabancı University • Minor in Mathematics",
-          quick_2:"Cybersecurity: SecurEnvoy MFA deployment; THY Tech Cyber Take‑Off (GRC) training",
-          quick_3:"Tech: Python (ML/Data/Web), C++ (systems), Java; Git/GitHub; SQL/NoSQL; Linux",
-          quick_4:"Languages: English (C1 • 183), French (B2), Turkish (Native)",
+          quick_1:"CS Engineer with hands-on cybersecurity (MFA, defense labs)",
+          quick_2:"SecurEnvoy MFA production rollout documentation",
+          quick_3:"Python, C++, Java • SQL/NoSQL • Linux • Git/GitHub",
+          quick_4:"English (C1-183), French (B2), Turkish (Native)",
           projects_title:"Projects",
           projects_sub:"Selected work. More projects coming soon.",
           p1_title:"MFA Solutions Comparative Analysis",
           p1_meta:"LSG Teknoloji • 2023",
-          p1_desc:"Compared 5+ MFA providers and authored a rollout plan. Deployed SecurEnvoy to production and improved account‑takeover resilience.",
-          p2_title:"Hash & HMAC Playground",
-          p2_meta:"Personal • Demo",
-          p2_desc:"Client‑side utility to experiment with SHA‑256 hashing and HMAC concepts for onboarding non‑security teammates. (Great as an interactive on your site.)",
-          p3_title:"ML Mini Experiments",
-          p3_meta:"Personal • Python",
-          p3_desc:"Small notebooks exploring classification and feature engineering with scikit‑learn; focus on reproducibility and meaningful baselines.",
+          p1_desc:"Compared 5+ MFA providers and authored a rollout plan. Deployed SecurEnvoy to production and improved account-takeover resilience.",
           p4_title:"System Utilities (C++)",
           p4_meta:"Personal • C++",
-          p4_desc:"Cross‑platform CLI tools for profiling, batch file ops, and small algorithms—focused on performance and portability.",
+          p4_desc:"Cross-platform CLI tools for profiling, batch file ops, and small algorithms—focused on performance and portability.",
           exp_title:"Experience",
           e1_title:"Software Development Intern — LSG Teknoloji Ltd. Şti.",
           e1_meta:"Jul–Aug 2023 • Istanbul",
-          e1_desc:"Shipped SecurEnvoy MFA to production, wrote implementation docs, and trained 20+ employees; strengthened authentication posture.",
-          e2_title:"Cybersecurity Trainee — THY Technology (Cyber Take‑Off GRC)",
+          e1_desc:"Deployed SecurEnvoy MFA in production and prepared documentation. Boosted security posture with additional auth layers.",
+          e2_title:"Cybersecurity Trainee — THY Technology (Cyber Take-Off GRC)",
           e2_meta:"Mar–Apr 2023 • Istanbul",
-          e2_desc:"Completed THY Tech’s Cyber Take‑Off (GRC) program; hands‑on labs across pentesting, detection, and incident response; practiced risk assessment and mitigation.",
+          e2_desc:"Hands-on cyber defense simulations; exposure to pentesting, threat detection, and incident response. Practiced risk assessment and mitigation.",
           contact_title:"Contact",
           contact_sub:"Open to software and security roles, internships, and collaborations.",
           label_email:"Email:", label_phone:"Phone:", label_location:"Location:",
-          footer_note:"Built with a lightweight, neon‑on‑dark theme."
+          footer_note:""
         },
         tr:{
           nav_about:"Hakkımda", nav_projects:"Projeler", nav_experience:"Deneyim", nav_contact:"İletişim",
           hero_badge:"Bilgisayar Bilimi • Siber Güvenlik • Python • C++",
-          hero_headline:"Güvenli, güvenilir yazılımlar—<br/>Bilgisayar Bilimi ve siber güvenlik bakışıyla.",
-          hero_lead:"MFA kurulumlarından savunma simülasyonlarına uzanan uygulamalı deneyime sahip bir Bilgisayar Bilimci & Mühendisim. Odağım performans, temiz API’ler ve gerçek hayata dokunan güvenlik.",
-          cta_projects:"Projeleri Gör", cta_contact:"İletişime Geç",
+          hero_headline:"Güvenlik odaklı yazılım mühendisliği",
+          hero_lead:"MFA kurulumlarından savunma laboratuvarlarına uzanan uygulamalı siber güvenlik deneyimine sahibim. Odağım performans, temiz API’ler ve pratik, gerçek hayata dokunan güvenliktir.",
+          cta_projects:"Deneyimi Gör", cta_contact:"E-posta Gönder",
           quick_title:"Hızlı bilgiler",
-          quick_1:"Sabancı Üniversitesi Bilgisayar Bilimi ve Mühendisliği • Matematik Yandal",
-          quick_2:"Siber Güvenlik: SecurEnvoy MFA kurulumu; THY Tech Cyber Take‑Off (GRC) eğitimi",
-          quick_3:"Teknolojiler: Python (ML/Veri/Web), C++ (sistemler), Java; Git/GitHub; SQL/NoSQL; Linux",
-          quick_4:"Diller: İngilizce (C1 • 183), Fransızca (B2), Türkçe (anadil)",
+          quick_1:"Uygulamalı siber güvenlik deneyimi (MFA, savunma lab’ları)",
+          quick_2:"SecurEnvoy MFA üretim geçişi ve dokümantasyon",
+          quick_3:"Python, C++, Java • SQL/NoSQL • Linux • Git/GitHub",
+          quick_4:"İngilizce (C1-183), Fransızca (B2), Türkçe (Anadil)",
           projects_title:"Projeler",
           projects_sub:"Seçili çalışmalar. Yakında yeni projeler eklenecek.",
           p1_title:"MFA Çözümleri Karşılaştırması",
           p1_meta:"LSG Teknoloji • 2023",
           p1_desc:"5+ MFA sağlayıcısını karşılaştırdım ve geçiş planı hazırladım. SecurEnvoy’u üretime kurarak hesap ele geçirilmesine karşı dayanıklılığı artırdım.",
-          p2_title:"Hash & HMAC Oyun Alanı",
-          p2_meta:"Kişisel • Demo",
-          p2_desc:"SHA‑256 ve HMAC kavramlarını tarayıcıda deneyimlemek için küçük bir araç. Güvenlik ekibine yeni katılanlar için öğretici.",
-          p3_title:"ML Mini Deneyler",
-          p3_meta:"Kişisel • Python",
-          p3_desc:"scikit‑learn ile sınıflandırma ve özellik mühendisliği mini not defterleri; tekrarlanabilirlik ve anlamlı baz çizgiler odaklı.",
           p4_title:"Sistem Araçları (C++)",
           p4_meta:"Kişisel • C++",
           p4_desc:"Profiling, toplu dosya işlemleri ve küçük algoritmalar için çapraz platform CLI araçları—performans ve taşınabilirlik odaklı.",
           exp_title:"Deneyim",
           e1_title:"Yazılım Geliştirme Stajyeri — LSG Teknoloji Ltd. Şti.",
           e1_meta:"Tem–Ağu 2023 • İstanbul",
-          e1_desc:"SecurEnvoy MFA’yı üretime aldım, uygulama dokümantasyonunu yazdım ve 20+ kişiye eğitim verdim; kimlik doğrulama güvenliğini güçlendirdim.",
-          e2_title:"Siber Güvenlik Stajyeri — THY Teknoloji (Cyber Take‑Off GRC)",
+          e1_desc:"SecurEnvoy MFA’yı üretime kurdum ve dokümantasyon hazırladım. Ek katmanlarla güvenlik duruşunu güçlendirdim.",
+          e2_title:"Siber Güvenlik Eğitimi — THY Teknoloji (Cyber Take-Off GRC)",
           e2_meta:"Mar–Nis 2023 • İstanbul",
-          e2_desc:"THY Tech Cyber Take‑Off (GRC) programını tamamladım; sızma testi, tehdit tespiti ve olay müdahalesi odaklı uygulamalı laboratuvarlar; risk analizi ve azaltma pratikleri.",
+          e2_desc:"Uygulamalı savunma simülasyonları; sızma testi, tehdit tespiti ve olay müdahalesi pratikleri. Risk analizi ve azaltım yöntemlerini uyguladım.",
           contact_title:"İletişim",
           contact_sub:"Yazılım ve güvenlik pozisyonları, stajlar ve iş birliklerine açığım.",
-          label_email:"E‑posta:", label_phone:"Telefon:", label_location:"Konum:",
-          footer_note:"Hafif, neon vurgulu koyu temayla inşa edildi."
+          label_email:"E-posta:", label_phone:"Telefon:", label_location:"Konum:",
+          footer_note:""
         }
       };
 
@@ -323,8 +285,8 @@
         set('.badge','hero_badge');
         set('.headline','hero_headline', true);
         set('#about .lead','hero_lead');
-        set('.hero-cta a[href="#projects"]','cta_projects');
-        set('.hero-cta a[href="#contact"]','cta_contact');
+        set('.hero-cta a[href="#experience"]','cta_projects'); // CTA 1 -> Experience
+        set('.hero-cta a[href="#contact"]','cta_contact');     // CTA 2 -> Contact
 
         // QUICK FACTS
         set('#about .hero-card h3','quick_title');
@@ -369,10 +331,7 @@
       const saved = localStorage.getItem('lang') || 'en';
       apply(saved);
       const btn = document.getElementById('lang-toggle');
-      if(btn){ btn.addEventListener('click', ()=>{
-        const next = (localStorage.getItem('lang') === 'tr') ? 'en' : 'tr';
-        apply(next);
-      }); }
+      if(btn){ btn.addEventListener('click', ()=>{ const next = (localStorage.getItem('lang') === 'tr') ? 'en' : 'tr'; apply(next); }); }
     })();
   </script>
 </body>
