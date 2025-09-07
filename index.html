@@ -46,6 +46,9 @@
     .links{display:flex; gap:18px; align-items:center}
     .links a{opacity:.9}
     .links a:hover{opacity:1}
+    .link-btn{background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;opacity:.9;cursor:pointer}
+    .link-btn:hover{opacity:1}
+    .link-btn:focus{outline:2px solid rgba(34,211,238,.6); outline-offset:2px}
     .btn{padding:10px 14px; border-radius:12px; background:linear-gradient(90deg, rgba(34,211,238,.15), rgba(124,58,237,.15)); border:1px solid rgba(255,255,255,.08)}
 
     /* =====================
@@ -115,6 +118,7 @@
         <a href="#projects">Projects</a>
         <a href="#experience">Experience</a>
         <a href="#contact" class="btn">Contact</a>
+        <button id="lang-toggle" class="link-btn" aria-label="Language toggle">TR</button>
       </div>
     </nav>
   </header>
@@ -141,15 +145,16 @@
           <li>Languages: English (C1 • 183), French (B2), Turkish (Native)</li>
         </ul>
         <div class="spacer"></div>
+        <div class="chips">
+            <a class="chip" href="https://github.com/berkkayabas" target="_blank" rel="noopener noreferrer" title="GitHub — opens in new tab">GitHub</a>
+            <a class="chip" href="https://www.linkedin.com/in/berkkayabas" target="_blank" rel="noopener noreferrer" title="LinkedIn — opens in new tab">LinkedIn</a>
+            <a class="chip" href="resume.pdf" target="_blank" rel="noopener noreferrer" title="Resume (PDF)">Resume</a>
+          </div>
       </aside>
     </section>
 
     <!-- ===================== PROJECTS ===================== -->
-    <section id="projects">
-      <h2 class="section-title">Projects</h2>
-      <p class="section-sub">Hand‑picked work highlighting security, performance, and clean code. Replace these placeholders with your repos/demos.</p>
-      <div class="grid">
-        <article class="card">
+        <article class="card" id="proj-mfa">
           <h3>MFA Solutions Comparative Analysis</h3>
           <div class="meta">LSG Teknoloji • 2023</div>
           <p>Benchmarked 5+ MFA providers, analyzed protocols and risk profiles, and contributed to a production rollout plan focused on defense‑in‑depth.</p>
@@ -159,27 +164,9 @@
             <span class="tag">Docs</span>
           </div>
         </article>
-        <article class="card">
-          <h3>Hash & HMAC Playground</h3>
-          <div class="meta">Personal • Demo</div>
-          <p>Client‑side utility to experiment with SHA‑256 hashing and HMAC concepts for onboarding non‑security teammates. (Great as an interactive on your site.)</p>
-          <div class="tags">
-            <span class="tag">Crypto</span>
-            <span class="tag">JS</span>
-            <span class="tag">Education</span>
-          </div>
-        </article>
-        <article class="card">
-          <h3>ML Mini Experiments</h3>
-          <div class="meta">Personal • Python</div>
-          <p>Small notebooks exploring classification and feature engineering with scikit‑learn; focus on reproducibility and meaningful baselines.</p>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">scikit‑learn</span>
-            <span class="tag">Reproducibility</span>
-          </div>
-        </article>
-        <article class="card">
+        
+        
+        <article class="card" id="proj-sys">
           <h3>System Utilities (C++)</h3>
           <div class="meta">Personal • C++</div>
           <p>Command‑line tools for profiling, file operations, and small algorithmic utilities with attention to performance and portability.</p>
@@ -228,9 +215,9 @@
           <p><strong>Email:</strong> <a href="mailto:berk.kayabas1682@gmail.com">berk.kayabas1682@gmail.com</a></p>
           <p><strong>Phone:</strong> +90 532 545 2001 • <strong>Location:</strong> Istanbul, Turkey</p>
           <div class="chips">
-            <a class="chip" href="https://github.com/berkkayabas1682" target="_blank" rel="noopener noreferrer" title="GitHub — opens in new tab">GitHub</a>
-            <a class="chip" href="https://www.linkedin.com/in/berkkayabas" target="_blank" rel="noopener noreferrer" title="LinkedIn — opens in new tab">LinkedIn</a>
-            <a class="chip" href="resume.pdf" target="_blank" rel="noopener noreferrer" title="Resume (PDF)">Resume</a>
+            <a class="chip" href="#" title="GitHub (add your link)">GitHub</a>
+            <a class="chip" href="#" title="LinkedIn (add your link)">LinkedIn</a>
+            <a class="chip" href="#" title="Resume PDF">Resume</a>
           </div>
         </article>
       </div>
@@ -243,5 +230,193 @@
       <span class="muted">Built with a lightweight, neon‑on‑dark theme.</span>
     </div>
   </footer>
+  <script>
+    // ===== Web Crypto helpers =====
+    const enc = (s)=> new TextEncoder().encode(s);
+    const toHex = (buf)=> Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+
+    async function sha256(message){
+      const digest = await crypto.subtle.digest('SHA-256', enc(message));
+      return toHex(digest);
+    }
+
+    async function hmac256(key, message){
+      const cryptoKey = await crypto.subtle.importKey(
+        'raw', enc(key), {name:'HMAC', hash:'SHA-256'}, false, ['sign']
+      );
+      const sig = await crypto.subtle.sign('HMAC', cryptoKey, enc(message));
+      return toHex(sig);
+    }
+
+    // ===== Wire up UI =====
+    const $ = (id)=> document.getElementById(id);
+    const msgEl = $('msg');
+    const secEl = $('secret');
+    const outHash = $('out-hash');
+    const outHmac = $('out-hmac');
+
+    $('btn-hash').addEventListener('click', async ()=>{
+      const m = msgEl.value || '';
+      if(!m){ outHash.textContent = 'Enter a message'; return; }
+      outHash.textContent = 'Computing…';
+      try{ outHash.textContent = await sha256(m); } catch(e){ outHash.textContent = 'Error'; }
+    });
+
+    $('btn-hmac').addEventListener('click', async ()=>{
+      const m = msgEl.value || '';
+      const k = secEl.value || '';
+      if(!m || !k){ outHmac.textContent = 'Need message + secret'; return; }
+      outHmac.textContent = 'Computing…';
+      try{ outHmac.textContent = await hmac256(k, m); } catch(e){ outHmac.textContent = 'Error'; }
+    });
+  </script>
+  <script>
+    // =====================
+    // Simple i18n (EN/TR)
+    // =====================
+    (function(){
+      const dict = {
+        en:{
+          nav_about:"About", nav_projects:"Projects", nav_experience:"Experience", nav_contact:"Contact",
+          hero_badge:"CS • Cybersecurity • Python • C++",
+          hero_headline:"Computer Scientist & Engineer<br/>building reliable, secure software.",
+          hero_lead:"I combine a strong CS foundation with hands‑on cybersecurity experience (MFA deployments, defense simulations). Passionate about performant systems, clean APIs, and practical security.",
+          cta_projects:"View Projects", cta_contact:"Get in touch",
+          quick_title:"Quick facts",
+          quick_1:"BS in Computer Science & Engineering, Sabancı University • Minor in Mathematics",
+          quick_2:"Cybersecurity: SecurEnvoy MFA deployment; THY Tech Cyber Take‑Off (GRC) training",
+          quick_3:"Tech: Python (ML/Data/Web), C++ (systems), Java; Git/GitHub; SQL/NoSQL; Linux",
+          quick_4:"Languages: English (C1 • 183), French (B2), Turkish (Native)",
+          projects_title:"Projects",
+          projects_sub:"Hand‑picked work highlighting security, performance, and clean code. Replace these placeholders with your repos/demos.",
+          p1_title:"MFA Solutions Comparative Analysis",
+          p1_meta:"LSG Teknoloji • 2023",
+          p1_desc:"Benchmarked 5+ MFA providers, analyzed protocols and risk profiles, and contributed to a production rollout plan focused on defense‑in‑depth.",
+          p2_title:"Hash & HMAC Playground",
+          p2_meta:"Personal • Demo",
+          p2_desc:"Client‑side utility to experiment with SHA‑256 hashing and HMAC concepts for onboarding non‑security teammates. (Great as an interactive on your site.)",
+          p3_title:"ML Mini Experiments",
+          p3_meta:"Personal • Python",
+          p3_desc:"Small notebooks exploring classification and feature engineering with scikit‑learn; focus on reproducibility and meaningful baselines.",
+          p4_title:"System Utilities (C++)",
+          p4_meta:"Personal • C++",
+          p4_desc:"Command‑line tools for profiling, file operations, and small algorithmic utilities with attention to performance and portability.",
+          exp_title:"Experience",
+          e1_title:"Software Development Intern — LSG Teknoloji Ltd. Şti.",
+          e1_meta:"Jul–Aug 2023 • Istanbul",
+          e1_desc:"Deployed SecurEnvoy MFA in production, prepared documentation, and delivered trainings to 20+ employees. Boosted security posture with additional auth layers.",
+          e2_title:"Cybersecurity Trainee — THY Technology (Cyber Take‑Off GRC)",
+          e2_meta:"Mar–Apr 2023 • Istanbul",
+          e2_desc:"Hands‑on cyber defense simulations; exposure to pentesting, threat detection, and incident response. Practiced risk assessment and mitigation.",
+          contact_title:"Contact",
+          contact_sub:"Open to software and security roles, internships, and collaborations.",
+          label_email:"Email:", label_phone:"Phone:", label_location:"Location:",
+          footer_note:""
+        },
+        tr:{
+          nav_about:"Hakkımda", nav_projects:"Projeler", nav_experience:"Deneyim", nav_contact:"İletişim",
+          hero_badge:"Bilgisayar Bilimi • Siber Güvenlik • Python • C++",
+          hero_headline:"Güvenilir ve güvenli yazılımlar geliştiren<br/>Bilgisayar Bilimci & Mühendisi.",
+          hero_lead:"Sağlam bir BB temelini, uygulamalı siber güvenlik deneyimiyle (MFA kurulumları, savunma simülasyonları) birleştiriyorum. Performanslı sistemler, temiz API'ler ve pratik güvenliğe odaklanıyorum.",
+          cta_projects:"Projeleri Gör", cta_contact:"İletişime Geç",
+          quick_title:"Hızlı bilgiler",
+          quick_1:"Sabancı Üniversitesi Bilgisayar Bilimi ve Mühendisliği • Matematik Yandal",
+          quick_2:"Siber Güvenlik: SecurEnvoy MFA kurulumu; THY Tech Cyber Take‑Off (GRC) eğitimi",
+          quick_3:"Teknolojiler: Python (ML/Veri/Web), C++ (sistemler), Java; Git/GitHub; SQL/NoSQL; Linux",
+          quick_4:"Diller: İngilizce (C1 • 183), Fransızca (B2), Türkçe (anadil)",
+          projects_title:"Projeler",
+          projects_sub:"Güvenlik, performans ve temiz kodu öne çıkaran seçili çalışmalar. Repo/demolar hazır olduğunda güncelleyebilirsin.",
+          p1_title:"MFA Çözümleri Karşılaştırması",
+          p1_meta:"LSG Teknoloji • 2023",
+          p1_desc:"5+ MFA sağlayıcısını kıyasladım, protokolleri ve risk profillerini analiz ettim; savunma‑derinliğine odaklı üretim geçiş planına katkı sağladım.",
+          p2_title:"Hash & HMAC Oyun Alanı",
+          p2_meta:"Kişisel • Demo",
+          p2_desc:"SHA‑256 ve HMAC kavramlarını tarayıcıda deneyimlemek için küçük bir araç. Güvenlik ekibine yeni katılanlar için öğretici.",
+          p3_title:"ML Mini Deneyler",
+          p3_meta:"Kişisel • Python",
+          p3_desc:"scikit‑learn ile sınıflandırma ve özellik mühendisliği mini not defterleri; tekrarlanabilirlik ve anlamlı baz çizgiler odaklı.",
+          p4_title:"Sistem Araçları (C++)",
+          p4_meta:"Kişisel • C++",
+          p4_desc:"Profiling, dosya işlemleri ve küçük algoritmik yardımcılar için çapraz platform komut satırı araçları.",
+          exp_title:"Deneyim",
+          e1_title:"Yazılım Geliştirme Stajyeri — LSG Teknoloji Ltd. Şti.",
+          e1_meta:"Tem–Ağu 2023 • İstanbul",
+          e1_desc:"SecurEnvoy MFA'yı üretime kurdum; dokümantasyon hazırladım ve 20+ kişiye eğitim verdim. Ek katmanlarla güvenlik duruşunu güçlendirdim.",
+          e2_title:"Siber Güvenlik Stajyeri — THY Teknoloji (Cyber Take‑Off GRC)",
+          e2_meta:"Mar–Nis 2023 • İstanbul",
+          e2_desc:"Uygulamalı savunma simülasyonları; sızma testi, tehdit tespiti ve olay müdahalesi pratikleri. Risk analizi ve azaltım yöntemlerini uyguladım.",
+          contact_title:"İletişim",
+          contact_sub:"Yazılım ve güvenlik pozisyonları, stajlar ve iş birliklerine açığım.",
+          label_email:"E‑posta:", label_phone:"Telefon:", label_location:"Konum:",
+          footer_note:""
+        }
+      };
+
+      function apply(lang){
+        const $ = (sel)=> document.querySelector(sel);
+        const set = (sel, key, html=false)=>{ const el = $(sel); if(!el) return; if(html){ el.innerHTML = dict[lang][key]; } else { el.textContent = dict[lang][key]; } };
+
+        // NAV
+        set('a[href="#about"]','nav_about');
+        set('a[href="#projects"]','nav_projects');
+        set('a[href="#experience"]','nav_experience');
+        set('a[href="#contact"]','nav_contact');
+
+        // HERO
+        set('.badge','hero_badge');
+        set('.headline','hero_headline', true);
+        set('#about .lead','hero_lead');
+        set('.hero-cta a[href="#projects"]','cta_projects');
+        set('.hero-cta a[href="#contact"]','cta_contact');
+
+        // QUICK FACTS
+        set('#about .hero-card h3','quick_title');
+        const lis = document.querySelectorAll('#about .hero-card ul li');
+        if(lis[0]) lis[0].textContent = dict[lang]['quick_1'];
+        if(lis[1]) lis[1].textContent = dict[lang]['quick_2'];
+        if(lis[2]) lis[2].textContent = dict[lang]['quick_3'];
+        if(lis[3]) lis[3].textContent = dict[lang]['quick_4'];
+
+        // PROJECTS
+        set('#projects .section-title','projects_title');
+        set('#projects .section-sub','projects_sub');
+        const mfa = document.querySelector('#proj-mfa');
+        if(mfa){ mfa.querySelector('h3').textContent = dict[lang]['p1_title']; mfa.querySelector('.meta').textContent = dict[lang]['p1_meta']; mfa.querySelector('p').textContent = dict[lang]['p1_desc']; }
+        const sys = document.querySelector('#proj-sys');
+        if(sys){ sys.querySelector('h3').textContent = dict[lang]['p4_title']; sys.querySelector('.meta').textContent = dict[lang]['p4_meta']; sys.querySelector('p').textContent = dict[lang]['p4_desc']; }
+
+        // EXPERIENCE
+        set('#experience .section-title','exp_title');
+        const ex = document.querySelectorAll('#experience .grid .card');
+        if(ex[0]){ ex[0].querySelector('h3').textContent = dict[lang]['e1_title']; ex[0].querySelector('.meta').textContent = dict[lang]['e1_meta']; ex[0].querySelector('p').textContent = dict[lang]['e1_desc']; }
+        if(ex[1]){ ex[1].querySelector('h3').textContent = dict[lang]['e2_title']; ex[1].querySelector('.meta').textContent = dict[lang]['e2_meta']; ex[1].querySelector('p').textContent = dict[lang]['e2_desc']; }
+
+        // CONTACT
+        set('#contact .section-title','contact_title');
+        set('#contact .section-sub','contact_sub');
+        const contactStrong = document.querySelectorAll('#contact strong');
+        if(contactStrong[0]) contactStrong[0].textContent = dict[lang]['label_email'];
+        if(contactStrong[1]) contactStrong[1].textContent = dict[lang]['label_phone'];
+        if(contactStrong[2]) contactStrong[2].textContent = dict[lang]['label_location'];
+
+        // FOOTER
+        const foot = document.querySelector('footer .muted');
+        if(foot) foot.textContent = dict[lang]['footer_note'];
+
+        document.documentElement.lang = (lang === 'tr' ? 'tr' : 'en');
+        localStorage.setItem('lang', lang);
+        const b = document.getElementById('lang-toggle');
+        if(b) b.textContent = (lang === 'tr' ? 'EN' : 'TR');
+      }
+
+      const saved = localStorage.getItem('lang') || 'en';
+      apply(saved);
+      const btn = document.getElementById('lang-toggle');
+      if(btn){ btn.addEventListener('click', ()=>{
+        const next = (localStorage.getItem('lang') === 'tr') ? 'en' : 'tr';
+        apply(next);
+      }); }
+    })();
+  </script>
 </body>
 </html>
