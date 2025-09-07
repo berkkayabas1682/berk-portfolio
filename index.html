@@ -153,34 +153,34 @@
     </section>
 
     <!-- ===================== PROJECTS ===================== -->
-        <!-- Interactive Security Demo: Hash & HMAC Playground -->
-        
-        <article class="card" id="proj-mfa">
-          <h3>MFA Solutions Comparative Analysis</h3>
-          <div class="meta">LSG Teknoloji • 2023</div>
-          <p>Benchmarked 5+ MFA providers, analyzed protocols and risk profiles, and contributed to a production rollout plan focused on defense‑in‑depth.</p>
-          <div class="tags">
-            <span class="tag">Security</span>
-            <span class="tag">MFA</span>
-            <span class="tag">Docs</span>
-          </div>
-        </article>
-        
-        
-        <article class="card" id="proj-sys">
-          <h3>System Utilities (C++)</h3>
-          <div class="meta">Personal • C++</div>
-          <p>Command‑line tools for profiling, file operations, and small algorithmic utilities with attention to performance and portability.</p>
-          <div class="tags">
-            <span class="tag">C++</span>
-            <span class="tag">CLI</span>
-            <span class="tag">Performance</span>
-          </div>
-        </article>
+<section id="projects">
+  <h2 class="section-title">Projects</h2>
+  <p class="section-sub">Selected work. More projects coming soon.</p>
+  <div class="grid">
+    <article class="card" id="proj-mfa">
+      <h3>MFA Solutions Comparative Analysis</h3>
+      <div class="meta">LSG Teknoloji • 2023</div>
+      <p>Compared 5+ MFA providers and authored a rollout plan. Deployed SecurEnvoy to production and improved account‑takeover resilience.</p>
+      <div class="tags">
+        <span class="tag">Security</span>
+        <span class="tag">MFA</span>
+        <span class="tag">Docs</span>
       </div>
-    </section>
+    </article>
+    <article class="card" id="proj-sys">
+      <h3>System Utilities (C++)</h3>
+      <div class="meta">Personal • C++</div>
+      <p>Cross‑platform CLI tools for profiling, batch file ops, and small algorithms—focused on performance and portability.</p>
+      <div class="tags">
+        <span class="tag">C++</span>
+        <span class="tag">CLI</span>
+        <span class="tag">Performance</span>
+      </div>
+    </article>
+  </div>
+</section>
 
-    <!-- ===================== EXPERIENCE ===================== -->
+<!-- ===================== EXPERIENCE ===================== -->
     <section id="experience">
       <h2 class="section-title">Experience</h2>
       <div class="grid">
@@ -212,15 +212,11 @@
       <h2 class="section-title">Contact</h2>
       <p class="section-sub">Open to software and security roles, internships, and collaborations.</p>
       <div class="grid">
-        <article class="card" style="grid-column: span 12">
-          <p><strong>Email:</strong> <a href="mailto:berk.kayabas1682@gmail.com">berk.kayabas1682@gmail.com</a></p>
-          <p><strong>Phone:</strong> +90 532 545 2001 • <strong>Location:</strong> Istanbul, Turkey</p>
-          <div class="chips">
-            <a class="chip" href="#" title="GitHub (add your link)">GitHub</a>
-            <a class="chip" href="#" title="LinkedIn (add your link)">LinkedIn</a>
-            <a class="chip" href="#" title="Resume PDF">Resume</a>
-          </div>
-        </article>
+        
+            <a class="chip" href="https://github.com/berkkayabas" target="_blank" rel="noopener noreferrer" title="GitHub — opens in new tab">GitHub</a>
+            <a class="chip" href="https://www.linkedin.com/in/berkkayabas" target="_blank" rel="noopener noreferrer" title="LinkedIn — opens in new tab">LinkedIn</a>
+            <a class="chip" href="/resume.pdf" target="_blank" rel="noopener noreferrer" title="Resume (PDF)">Resume</a>
+        
       </div>
     </section>
   </main>
@@ -232,46 +228,6 @@
     </div>
   </footer>
   <script>
-    // ===== Web Crypto helpers =====
-    const enc = (s)=> new TextEncoder().encode(s);
-    const toHex = (buf)=> Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-
-    async function sha256(message){
-      const digest = await crypto.subtle.digest('SHA-256', enc(message));
-      return toHex(digest);
-    }
-
-    async function hmac256(key, message){
-      const cryptoKey = await crypto.subtle.importKey(
-        'raw', enc(key), {name:'HMAC', hash:'SHA-256'}, false, ['sign']
-      );
-      const sig = await crypto.subtle.sign('HMAC', cryptoKey, enc(message));
-      return toHex(sig);
-    }
-
-    // ===== Wire up UI =====
-    const $ = (id)=> document.getElementById(id);
-    const msgEl = $('msg');
-    const secEl = $('secret');
-    const outHash = $('out-hash');
-    const outHmac = $('out-hmac');
-
-    $('btn-hash').addEventListener('click', async ()=>{
-      const m = msgEl.value || '';
-      if(!m){ outHash.textContent = 'Enter a message'; return; }
-      outHash.textContent = 'Computing…';
-      try{ outHash.textContent = await sha256(m); } catch(e){ outHash.textContent = 'Error'; }
-    });
-
-    $('btn-hmac').addEventListener('click', async ()=>{
-      const m = msgEl.value || '';
-      const k = secEl.value || '';
-      if(!m || !k){ outHmac.textContent = 'Need message + secret'; return; }
-      outHmac.textContent = 'Computing…';
-      try{ outHmac.textContent = await hmac256(k, m); } catch(e){ outHmac.textContent = 'Error'; }
-    });
-  </script>
-  <script>
     // =====================
     // Simple i18n (EN/TR)
     // =====================
@@ -280,7 +236,7 @@
         en:{
           nav_about:"About", nav_projects:"Projects", nav_experience:"Experience", nav_contact:"Contact",
           hero_badge:"CS • Cybersecurity • Python • C++",
-          hero_headline:"Secure, reliable software<br/>—<br/>built with a CS & cybersecurity mindset.",
+          hero_headline:"Secure, reliable software—<br/>built with a CS & cybersecurity mindset.",
           hero_lead:"Computer Scientist & Engineer with hands‑on cybersecurity experience—from MFA deployments to defense simulations. I focus on performance, clean APIs, and practical, real‑world security.",
           cta_projects:"View Projects", cta_contact:"Get in touch",
           quick_title:"Quick facts",
@@ -289,10 +245,10 @@
           quick_3:"Tech: Python (ML/Data/Web), C++ (systems), Java; Git/GitHub; SQL/NoSQL; Linux",
           quick_4:"Languages: English (C1 • 183), French (B2), Turkish (Native)",
           projects_title:"Projects",
-          projects_sub:"Hand‑picked work highlighting security, performance, and clean code. Replace these placeholders with your repos/demos.",
+          projects_sub:"Selected work. More projects coming soon.",
           p1_title:"MFA Solutions Comparative Analysis",
           p1_meta:"LSG Teknoloji • 2023",
-          p1_desc:"Benchmarked 5+ MFA providers, analyzed protocols and risk profiles, and contributed to a production rollout plan focused on defense‑in‑depth.",
+          p1_desc:"Compared 5+ MFA providers and authored a rollout plan. Deployed SecurEnvoy to production and improved account‑takeover resilience.",
           p2_title:"Hash & HMAC Playground",
           p2_meta:"Personal • Demo",
           p2_desc:"Client‑side utility to experiment with SHA‑256 hashing and HMAC concepts for onboarding non‑security teammates. (Great as an interactive on your site.)",
@@ -301,18 +257,18 @@
           p3_desc:"Small notebooks exploring classification and feature engineering with scikit‑learn; focus on reproducibility and meaningful baselines.",
           p4_title:"System Utilities (C++)",
           p4_meta:"Personal • C++",
-          p4_desc:"Command‑line tools for profiling, file operations, and small algorithmic utilities with attention to performance and portability.",
+          p4_desc:"Cross‑platform CLI tools for profiling, batch file ops, and small algorithms—focused on performance and portability.",
           exp_title:"Experience",
           e1_title:"Software Development Intern — LSG Teknoloji Ltd. Şti.",
           e1_meta:"Jul–Aug 2023 • Istanbul",
-          e1_desc:"Deployed SecurEnvoy MFA in production, prepared documentation, and delivered trainings to 20+ employees. Boosted security posture with additional auth layers.",
+          e1_desc:"Shipped SecurEnvoy MFA to production, wrote implementation docs, and trained 20+ employees; strengthened authentication posture.",
           e2_title:"Cybersecurity Trainee — THY Technology (Cyber Take‑Off GRC)",
           e2_meta:"Mar–Apr 2023 • Istanbul",
-          e2_desc:"Hands‑on cyber defense simulations; exposure to pentesting, threat detection, and incident response. Practiced risk assessment and mitigation.",
+          e2_desc:"Completed THY Tech’s Cyber Take‑Off (GRC) program; hands‑on labs across pentesting, detection, and incident response; practiced risk assessment and mitigation.",
           contact_title:"Contact",
           contact_sub:"Open to software and security roles, internships, and collaborations.",
           label_email:"Email:", label_phone:"Phone:", label_location:"Location:",
-          footer_note:""
+          footer_note:"Built with a lightweight, neon‑on‑dark theme."
         },
         tr:{
           nav_about:"Hakkımda", nav_projects:"Projeler", nav_experience:"Deneyim", nav_contact:"İletişim",
@@ -326,10 +282,10 @@
           quick_3:"Teknolojiler: Python (ML/Veri/Web), C++ (sistemler), Java; Git/GitHub; SQL/NoSQL; Linux",
           quick_4:"Diller: İngilizce (C1 • 183), Fransızca (B2), Türkçe (anadil)",
           projects_title:"Projeler",
-          projects_sub:"Güvenlik, performans ve temiz kodu öne çıkaran seçili çalışmalar. Repo/demolar hazır olduğunda güncelleyebilirsin.",
+          projects_sub:"Seçili çalışmalar. Yakında yeni projeler eklenecek.",
           p1_title:"MFA Çözümleri Karşılaştırması",
           p1_meta:"LSG Teknoloji • 2023",
-          p1_desc:"5+ MFA sağlayıcısını kıyasladım, protokolleri ve risk profillerini analiz ettim; savunma‑derinliğine odaklı üretim geçiş planına katkı sağladım.",
+          p1_desc:"5+ MFA sağlayıcısını karşılaştırdım ve geçiş planı hazırladım. SecurEnvoy’u üretime kurarak hesap ele geçirilmesine karşı dayanıklılığı artırdım.",
           p2_title:"Hash & HMAC Oyun Alanı",
           p2_meta:"Kişisel • Demo",
           p2_desc:"SHA‑256 ve HMAC kavramlarını tarayıcıda deneyimlemek için küçük bir araç. Güvenlik ekibine yeni katılanlar için öğretici.",
@@ -338,18 +294,18 @@
           p3_desc:"scikit‑learn ile sınıflandırma ve özellik mühendisliği mini not defterleri; tekrarlanabilirlik ve anlamlı baz çizgiler odaklı.",
           p4_title:"Sistem Araçları (C++)",
           p4_meta:"Kişisel • C++",
-          p4_desc:"Profiling, dosya işlemleri ve küçük algoritmik yardımcılar için çapraz platform komut satırı araçları.",
+          p4_desc:"Profiling, toplu dosya işlemleri ve küçük algoritmalar için çapraz platform CLI araçları—performans ve taşınabilirlik odaklı.",
           exp_title:"Deneyim",
           e1_title:"Yazılım Geliştirme Stajyeri — LSG Teknoloji Ltd. Şti.",
           e1_meta:"Tem–Ağu 2023 • İstanbul",
-          e1_desc:"SecurEnvoy MFA'yı üretime kurdum; dokümantasyon hazırladım ve 20+ kişiye eğitim verdim. Ek katmanlarla güvenlik duruşunu güçlendirdim.",
+          e1_desc:"SecurEnvoy MFA’yı üretime aldım, uygulama dokümantasyonunu yazdım ve 20+ kişiye eğitim verdim; kimlik doğrulama güvenliğini güçlendirdim.",
           e2_title:"Siber Güvenlik Stajyeri — THY Teknoloji (Cyber Take‑Off GRC)",
           e2_meta:"Mar–Nis 2023 • İstanbul",
-          e2_desc:"Uygulamalı savunma simülasyonları; sızma testi, tehdit tespiti ve olay müdahalesi pratikleri. Risk analizi ve azaltım yöntemlerini uyguladım.",
+          e2_desc:"THY Tech Cyber Take‑Off (GRC) programını tamamladım; sızma testi, tehdit tespiti ve olay müdahalesi odaklı uygulamalı laboratuvarlar; risk analizi ve azaltma pratikleri.",
           contact_title:"İletişim",
           contact_sub:"Yazılım ve güvenlik pozisyonları, stajlar ve iş birliklerine açığım.",
           label_email:"E‑posta:", label_phone:"Telefon:", label_location:"Konum:",
-          footer_note:""
+          footer_note:"Hafif, neon vurgulu koyu temayla inşa edildi."
         }
       };
 
